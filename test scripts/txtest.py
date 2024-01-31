@@ -14,11 +14,5 @@ led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
 
 while True:
-	pres = sensor.temperature
-	rfm95.send(str(pres))
-	packet = rfm95.receive(timeout=0.1)
-	if packet is not None:
-		led.value = True
-		sleep(0.1)
-	else:
-		led.value = False
+    pres = sensor.temperature
+    rfm95.send(str(pres))
