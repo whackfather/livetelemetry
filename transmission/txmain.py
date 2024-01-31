@@ -15,23 +15,21 @@ adxl = adafruit_adxl34x.ADXL345(i2c)
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
 
+accel = adxl.acceleration
+accel = str(accel)
 pres = ms.pressure
 temp = ms.temperature
-acx = adxl.raw_x
-acy = adxl.raw_y
-acz = adxl.raw_z
 start = time.monotonic()
-rfm95.send(str(pres) + "," + str(temp) + "," + str(acx) + "," + str(acy) + "," + str(acz))
+rfm95.send(str(pres) + "," + str(temp) + "," + accel.replace(" ", "").replace("(", "").replace(")", "") + ",0")
 
 while True:
-	pres = ms.pressure
-	temp = ms.temperature
-	acx = adxl.raw_x
-	acy = adxl.raw_y
-	acz = adxl.raw_z
-	end = time.monotonic()
-	elapsed = end - start
-	start = time.monotonic()
-	led.value = True
-	rfm95.send(str(pres) + "," + str(temp) + "," + str(acx) + "," + str(acy) + "," + str(acz) + "," + str(elapsed))
-	led.value = False
+    accel = adxl.acceleration
+    accel = str(accel)
+    pres = ms.pressure
+    temp = ms.temperature
+    end = time.monotonic()
+    elapsed = end - start
+    start = time.monotonic()
+    led.value = True
+    rfm95.send(str(pres) + "," + str(temp) + "," + accel.replace(" ", "").replace("(", "").replace(")", "") + "," + str(elapsed))
+    led.value = False
