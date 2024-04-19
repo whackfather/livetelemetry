@@ -2,35 +2,32 @@ import board
 import busio
 import digitalio
 import adafruit_rfm9x
-from adafruit_ms8607 import MS8607
 import adafruit_bno055
+import adafruit_ms8607
 import time
 
 RADIO_FREQ_MHZ = 928.0
 CS = digitalio.DigitalInOut(board.RFM_CS)
 RESET = digitalio.DigitalInOut(board.RFM_RST)
 rfm95 = adafruit_rfm9x.RFM9x(board.SPI(), CS, RESET, RADIO_FREQ_MHZ)
+rfm95.tx_power = 23
 i2c = board.I2C()
-ms = MS8607(i2c)
 bno = adafruit_bno055.BNO055_I2C(i2c)
+ms = adafruit_ms8607.MS8607(i2c)
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
 
-accel = bno.linear_acceleration
-accel = str(accel)
-pres = ms.pressure
-temp = ms.temperature
+oiler = str(bno.euler)
+pres = str(ms.pressure)
 start = time.monotonic()
-rfm95.send(str(pres) + "," + str(temp) + "," + accel.replace(" ", "").replace("(", "").replace(")", "") + ",0")
+rfm95.send(oiler.replace(" ", "").replace("(", "").replace(")", "") + "," + pres + ",0")
 
 while True:
-    accel = bno.linear_acceleration
-    accel = str(accel)
-    pres = ms.pressure
-    temp = ms.temperature
+    oiler = str(bno.euler)
+    pres = str(ms.pressure)
     end = time.monotonic()
     elapsed = end - start
     start = time.monotonic()
     led.value = True
-    rfm95.send(str(pres) + "," + str(temp) + "," + accel.replace(" ", "").replace("(", "").replace(")", "") + "," + str(elapsed))
+    rfm95.send(oiler.replace(" ", "").replace("(", "").replace(")", "") + "," + pres + "," + str(elapsed))
     led.value = False
