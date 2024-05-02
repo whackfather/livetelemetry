@@ -1,3 +1,7 @@
+# Radio Receiver Program
+# v2.3
+# Written by Roman Rodriguez
+
 import board
 import digitalio
 import adafruit_rfm9x
