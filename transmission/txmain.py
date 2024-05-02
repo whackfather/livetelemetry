@@ -1,3 +1,7 @@
+# Radio Trasmitter Program
+# v1.12
+# Written by Roman Rodriguez
+
 import board
 import busio
 import digitalio
