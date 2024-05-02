@@ -1,6 +1,6 @@
 # Altitude from Air Pressure
 # v1.0
-# Roman Rodriguez
+# Written by Roman Rodriguez
 
 import math
 
