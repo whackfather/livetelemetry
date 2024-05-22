@@ -20,7 +20,7 @@ while True:
     packet = rfm95.receive()
     if packet is not None:
         if lost == 1:
-            lost = False
+            lost = 0
             led.value = True
             packet_text = str(packet, 'ascii')
             ls_packet = list(packet_text.split(","))
