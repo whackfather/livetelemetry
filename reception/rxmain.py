@@ -1,5 +1,5 @@
 # Radio Receiver Program
-# v1.14
+# v1.15
 # Written by Roman Rodriguez
 
 import board
@@ -13,7 +13,7 @@ RESET = digitalio.DigitalInOut(board.RFM_RST)
 rfm95 = adafruit_rfm9x.RFM9x(board.SPI(), CS, RESET, RADIO_FREQ_MHZ)
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
-packet_text = "0,0,0,0,0"
+packet_text = "0,0"
 lost = 0
 
 while True:
@@ -26,7 +26,7 @@ while True:
             ls_packet = list(packet_text.split(","))
             end = time.monotonic()
             elapsed = end - start
-            ls_packet[4] = elapsed
+            ls_packet[-1] = elapsed
             print(str(ls_packet).replace("[", "").replace("'", "").replace(" ", "").replace("]", ""))
         elif lost == 0:
             led.value = True
